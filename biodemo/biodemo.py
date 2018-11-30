@@ -22,6 +22,7 @@ EXIT_FILE_IO_ERROR = 1
 EXIT_COMMAND_LINE_ERROR = 2
 EXIT_FASTA_FILE_ERROR = 3
 DEFAULT_MIN_LEN = 0
+DEFAULT_MAX_LEN = float('inf')
 DEFAULT_VERBOSE = False
 HEADER = 'FILENAME\tNUMSEQ\tTOTAL\tMIN\tAVG\tMAX'
 PROGRAM_NAME = "biodemo"
@@ -61,6 +62,13 @@ def parse_args():
         default=DEFAULT_MIN_LEN,
         help='Minimum length sequence to include in stats (default {})'.format(
             DEFAULT_MIN_LEN))
+    parser.add_argument(
+        '--maxlen',
+        metavar='N',
+        type=int,
+        default=DEFAULT_MAX_LEN,
+        help='Maximum length sequence to include in stats (default {})'.format(
+            DEFAULT_MAX_LEN))
     parser.add_argument('--version',
                         action='version',
                         version='%(prog)s ' + PROGRAM_VERSION)
@@ -114,7 +122,7 @@ class FastaStats(object):
                 self.num_seqs, self.num_bases, self.min_len, self.max_len,
                 self.average)
 
-    def from_file(self, fasta_file, minlen_threshold=DEFAULT_MIN_LEN):
+    def from_file(self, fasta_file, minlen_threshold=DEFAULT_MIN_LEN, maxlen_threshold=DEFAULT_MAX_LEN):
         '''Compute a FastaStats object from an input FASTA file.
 
         Arguments:
@@ -123,6 +131,10 @@ class FastaStats(object):
               computing the statistics. Sequences in the input FASTA file
               which have a length less than this value are ignored and not
               considered in the resulting statistics.
+           maxlen_threshold: the maximum length sequence to consider in
+              computing the statistics. Sequences in the input FASTA file
+              which have a length more than this value are ignored and not
+              considered in the resulting statistics.
         Result:
            A FastaStats object
         '''
@@ -130,7 +142,7 @@ class FastaStats(object):
         min_len = max_len = None
         for seq in SeqIO.parse(fasta_file, "fasta"):
             this_len = len(seq)
-            if this_len >= minlen_threshold:
+            if this_len >= minlen_threshold and this_len <= maxlen_threshold:
                 if num_seqs == 0:
                     min_len = max_len = this_len
                 else:
