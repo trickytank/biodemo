@@ -151,8 +151,8 @@ test_stdout_exit "$test_program empty_file" empty_file.expected 0
 # Test when --minlen filters out ALL sequences (empty result)
 test_stdout_exit "$test_program --minlen 1000 two_sequence.fasta" two_sequence.fasta.minlen_1000.expected 0
 # Test our new function --maxlen
-test_stdout_exit "$test_program --minlen 170 two_sequence.fasta" two_sequence.fasta.maxlen_170.expected 0
-test_stdout_exit "$test_program --minlen 170 < two_sequence.fasta" two_sequence.fasta.maxlen_170.stdin.expected 0
+test_stdout_exit "$test_program --maxlen 170 two_sequence.fasta" two_sequence.fasta.maxlen_170.expected 0
+test_stdout_exit "$test_program --maxlen 170 < two_sequence.fasta" two_sequence.fasta.maxlen_170.stdin.expected 0
 test_stdout_exit "$test_program --maxlen 10 two_sequence.fasta" two_sequence.fasta.maxlen_10.expected 0
 # Both minlen and maxlen together
 test_stdout_exit "$test_program --minlen 10 --maxlen 1000 two_sequence.fasta" two_sequence.fasta.expected 0

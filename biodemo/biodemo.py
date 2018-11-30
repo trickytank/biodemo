@@ -22,7 +22,7 @@ EXIT_FILE_IO_ERROR = 1
 EXIT_COMMAND_LINE_ERROR = 2
 EXIT_FASTA_FILE_ERROR = 3
 DEFAULT_MIN_LEN = 0
-DEFAULT_MAX_LEN = float('inf')
+DEFAULT_MAX_LEN = 10000000000
 DEFAULT_VERBOSE = False
 HEADER = 'FILENAME\tNUMSEQ\tTOTAL\tMIN\tAVG\tMAX'
 PROGRAM_NAME = "biodemo"
@@ -64,7 +64,7 @@ def parse_args():
             DEFAULT_MIN_LEN))
     parser.add_argument(
         '--maxlen',
-        metavar='N',
+        metavar='M',
         type=int,
         default=DEFAULT_MAX_LEN,
         help='Maximum length sequence to include in stats (default {})'.format(
@@ -88,7 +88,7 @@ class FastaStats(object):
     '''Compute various statistics for a FASTA file:
 
     num_seqs: the number of sequences in the file satisfying the minimum
-       length requirement (minlen_threshold).
+       and maximum length requirement (minlen_threshold and maxlen_threshold).
     num_bases: the total length of all the counted sequences.
     min_len: the minimum length of the counted sequences.
     max_len: the maximum length of the counted sequences.
@@ -205,11 +205,11 @@ def process_files(options):
                 exit_with_error(str(exception), EXIT_FILE_IO_ERROR)
             else:
                 with fasta_file:
-                    stats = FastaStats().from_file(fasta_file, options.minlen)
+                    stats = FastaStats().from_file(fasta_file, options.minlen, options.maxlen)
                     print(stats.pretty(fasta_filename))
     else:
         logging.info("Processing FASTA file from stdin")
-        stats = FastaStats().from_file(sys.stdin, options.minlen)
+        stats = FastaStats().from_file(sys.stdin, options.minlen, options.maxlen)
         print(stats.pretty("stdin"))
 
 
