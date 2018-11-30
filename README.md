@@ -1,4 +1,5 @@
 [![travis](https://travis-ci.org/trickytank/biodemo.svg?branch=master)](https://travis-ci.org/trickytank/biodemo)
+[![codecov](https://codecov.io/github/trickytank/biodemo/branch/master/graphs/badge.svg)](https://codecov.io/github/trickytank/biodemo)
 
 # Overview 
 
