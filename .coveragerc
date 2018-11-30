@@ -1,5 +1,5 @@
 [paths]
 source =
-    $HOME/code/biodemo
+    biodemo/
     /home/ubuntu/scratch/biodemo_dev 
 
