@@ -1,0 +1,6 @@
+[paths]
+source =
+    $HOME/code/biodemo
+    /use/the/codecov/paths/biodemo/
+    /so/the/output/is/merged/biodemo/
+
