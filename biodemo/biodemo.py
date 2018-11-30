@@ -226,6 +226,7 @@ def init_logging(log_filename):
 def main():
     "Orchestrate the execution of the program"
     options = parse_args()
+    print(HEADER)
     init_logging(options.log)
     process_files(options)
 
