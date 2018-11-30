@@ -150,6 +150,16 @@ test_stdout_exit "$test_program --minlen 200 < two_sequence.fasta" two_sequence.
 test_stdout_exit "$test_program empty_file" empty_file.expected 0
 # Test when --minlen filters out ALL sequences (empty result)
 test_stdout_exit "$test_program --minlen 1000 two_sequence.fasta" two_sequence.fasta.minlen_1000.expected 0
+# Test our new function --maxlen
+test_stdout_exit "$test_program --minlen 170 two_sequence.fasta" two_sequence.fasta.maxlen_170.expected 0
+test_stdout_exit "$test_program --minlen 170 < two_sequence.fasta" two_sequence.fasta.maxlen_170.stdin.expected 0
+test_stdout_exit "$test_program --maxlen 10 two_sequence.fasta" two_sequence.fasta.maxlen_10.expected 0
+# Both minlen and maxlen together
+test_stdout_exit "$test_program --minlen 10 --maxlen 1000 two_sequence.fasta" two_sequence.fasta.expected 0
+test_stdout_exit "$test_program --minlen 200 --maxlen 10 two_sequence.fasta" two_sequence.fasta.maxlen_10.expected 0
+test_stdout_exit "$test_program --minlen 200 --maxlen 1000 two_sequence.fasta" two_sequence.fasta.minlen_200.expected 0
+test_stdout_exit "$test_program --minlen 10 --maxlen 170 two_sequence.fasta" two_sequence.fasta.maxlen_170.expected 0
+test_stdout_exit "$test_program --minlen 50 --maxlen 340 < two_sequence.fasta" two_sequence.fasta.stdin.expected 0
 # Test exit status for a bad command line invocation
 test_exit_status "$test_program --this_is_not_a_valid_argument > /dev/null 2>&1" 2
 # Test exit status for a non existent input FASTA file
